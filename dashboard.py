@@ -5,8 +5,8 @@ import panel as pn
 import holoviews as hv
 
 #filepaths for our data
-file2025 = './items-2025-01-01-2026-01-01.csv'
-file2026 = './items-2026-01-01-2027-01-01.csv'
+file2025 = './items-2025-01-01-2026-01-01-clean.csv'
+file2026 = './items-2026-01-01-2027-01-01-clean.csv'
 filepath_weather = '4266263.csv'
 
 weather_df = pd.read_csv(filepath_weather)
