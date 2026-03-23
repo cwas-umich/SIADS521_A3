@@ -30,7 +30,7 @@ ytd_filtered = df_ytd_compare[df_ytd_compare['DayOfYear'] <= max_day].copy()
 ytd_filtered['YTD'] = ytd_filtered.groupby('Year')['Gross Sales'].cumsum()
 
 pn.extension()
-
+#-------------------  Gross sales comparison --------------------
 ytd_line = ytd_filtered.pivot(
     index='DayOfYear', columns='Year', values='YTD'
 ).hvplot.line(
@@ -39,7 +39,7 @@ ytd_line = ytd_filtered.pivot(
     width=1050, height=350
 )
 
-#start the panel 
+# -------------- Gross sales heatmap -----------------
 
 # cleaning up the data to work with our new column
 ytd_filtered['DayOfWeek'] = ytd_filtered['Date'].dt.day_name() 
@@ -97,6 +97,8 @@ projected_2025_pace = avg_2025 * 365
 # print(f"\nProjected 2026 full year (at current pace): ${projected_2026:,.2f}")
 # print(f"2025 pace full year equivalent: ${projected_2025_pace:,.2f}")
 # print(f"Projected additional revenue: ${projected_2026 - projected_2025_pace:,.2f}")
+
+#------------------------ABC comparison ---------------------------
 
 item_summary = df_clean.groupby('Item').agg(
     total_qty=('Qty', 'sum'),
@@ -164,6 +166,7 @@ tier_toggle = pn.widgets.RadioButtonGroup(
     button_type='success'
 )
 
+#----------------------- Which items to Cut ---------------------
 
 core = ['Ice Cream', 'Ice', 'H2O \\ water', 'Bottles \\ Jugs', 'Lids for bottles']
 months = ytd_filtered['Date'].dt.to_period('M').nunique()
@@ -198,7 +201,7 @@ cut_scatter = scatter * hline * vline
 
 #cuttable[cuttable['cut_candidate'] == True][['Item', 'avg_qty_month', 'avg_revenue_month']].sort_values('avg_revenue_month')
 
-
+#--------------------- Weather data--------------------
 cols = ['DATE', 'PRCP', 'TAVG', 'TMAX']
 weather_df = weather_df[cols]
 weather_df['DATE'] = pd.to_datetime(weather_df['DATE'])
@@ -212,7 +215,6 @@ dfw_daily = dfw_clean.groupby('Date').agg(
     TMAX=('TMAX', 'first')
 ).reset_index()
 
-#pn.extension()
 
 temp_slider = pn.widgets.RangeSlider(
     name='TMAX Range (f)',
